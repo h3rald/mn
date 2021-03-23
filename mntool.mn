@@ -1,0 +1,15 @@
+#!/usr/bin/env mn
+
+; Validation
+(args size 2 <) ("No task specified" puts 1 exit) when
+
+args 1 get ":" split "taskspec" let
+taskspec 0 get "task" let
+"default" "subtask" let
+(taskspec size 1 >) (taskspec 1 get "subtask" bind) when
+
+"tasks/$#.mn" (task) interpolate "taskfile" let
+
+taskfile read eval
+
+"$#__$#" (task subtask) interpolate eval
