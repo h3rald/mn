@@ -1,0 +1,8 @@
+(
+    [ls] "\n" split ("mn_v" indexof -1 >) filter (files) let
+    files (
+        (file) let
+        "Removing: $#" (file) interpolate puts pop
+        "rm $#" (file) interpolate run
+    ) foreach
+) (clean__default) lambda

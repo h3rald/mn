@@ -1,0 +1,9 @@
+"tasks/clean.mn" read eval
+"tasks/build.mn" read eval
+
+(
+    clean__default
+    build__linux
+    build__windows
+    build__macosx
+) (release__default) lambda

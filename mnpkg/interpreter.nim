@@ -2,6 +2,7 @@ import
   streams, 
   strutils, 
   os,
+  osproc,
   critbits,
   algorithm
 import 
@@ -225,7 +226,8 @@ proc push*(i: In, val: MnValue) {.gcsafe.}=
   elif val.kind == mnCommand:
     if DEBUG:
       echo "-- push command: $#" % val.cmdVal
-    i.push execShellCmd(val.cmdVal).newVal
+    let res = execCmdEx(val.cmdVal)
+    i.push res.output.newVal
   else:
     if DEBUG:
       echo "-- push literal: $#" % $val
@@ -252,8 +254,8 @@ template handleErrors*(i: In, body: untyped) =
   except:
     let msg = getCurrentExceptionMsg()
     i.stack = i.stackcopy
-    #i.stackTrace()
-    #i.trace = @[]
+    i.stackTrace()
+    i.trace = @[]
     raise MnTrappedException(msg: msg)
 
 proc interpret*(i: In, parseOnly=false): MnValue {.discardable.} =

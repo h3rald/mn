@@ -1,0 +1,16 @@
+null "cfg_author" let
+null "cfg_version" let
+null "cfg_name" let
+null "cfg_description" let
+
+"mn.yml" read "\n" split
+(
+    ; Process each line
+    ":" split (parts) let
+    (parts size 1 >)
+    (
+        parts 0 get strip (name) let
+        parts 1 get strip (value) let
+        value "cfg_$#" (name) interpolate bind
+    ) when
+) foreach

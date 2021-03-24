@@ -1,0 +1,36 @@
+"tasks/pre.mn" read eval 
+
+(
+    (stage) let
+    (target_os) let
+    "mn_v$#_$#_x64" (cfg_version target_os) interpolate (o) let
+    (target_os "windows" ==)
+        ("$#.exe" (o) interpolate (o) bind)
+    when
+    "Building mn - $# (x64) - $#" (target_os stage) interpolate puts pop
+    "nim c -d:$# --os:$# -o:$# mn" (stage target_os o) interpolate (cmd) let
+    cmd puts pop
+    cmd run
+) (compile) lambda
+
+#| Tasks |#
+
+(
+    os "release" compile
+) (build__default) lambda
+
+(
+    os "dev" compile
+) (build__dev) lambda
+
+(
+    "windows" "release" compile
+) (build__windows) lambda
+
+(
+    "linux" "release" compile
+) (build__linux) lambda
+
+(
+    "macosx" "release" compile
+) (build__macosx) lambda

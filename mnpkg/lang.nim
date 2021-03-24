@@ -142,46 +142,16 @@ proc lang_module*(i: In) =
     let vals = i.expect("a")
     i.push vals[0].typeName.newVal
 
-  def.symbol("throw") do (i: In):
+  def.symbol("quotesym") do (i: In):
     let vals = i.expect("str")
-    let err = vals[0]
-    raiseRuntime(err.getString)
+    let s = vals[0]
+    i.push(@[i.newSym(s.strVal)].newVal)
 
-  def.symbol("try") do (i: In):
-    let vals = i.expect("quot")
-    let prog = vals[0]
-    if prog.qVal.len == 0:
-      raiseInvalid("Quotation must contain at least one element")
-    var code = prog.qVal[0]
-    var final, catch: MnValue
-    var hasFinally = false
-    var hasCatch = false
-    if prog.qVal.len > 1:
-      catch = prog.qVal[1]
-      hasCatch = true
-    if prog.qVal.len > 2:
-      final = prog.qVal[2]
-      hasFinally = true
-    if (not code.isQuotation) or (hasCatch and not catch.isQuotation) or (hasFinally and not final.isQuotation):
-      raiseInvalid("Quotation must contain at least one quotation")
-    try:
-      i.dequote(code)
-    except MnRuntimeError:
-      if not hasCatch:
-        return
-      let e = (MnRuntimeError)getCurrentException()
-      i.push e.data
-      i.dequote(catch)
-    except:
-      if not hasCatch:
-        return
-      let e = getCurrentException()
-      i.push e.msg.newVal
-      i.dequote(catch)
-    finally:
-      if hasFinally:
-        i.dequote(final)
-
+  def.symbol("quotecmd") do (i: In):
+    let vals = i.expect("str")
+    let s = vals[0]
+    i.push(@[newCmd(s.strVal)].newVal)
+  
   def.symbol("quote") do (i: In):
     let vals = i.expect("a")
     let a = vals[0]
@@ -191,8 +161,6 @@ proc lang_module*(i: In) =
     let vals = i.expect("quot")
     var q = vals[0]
     i.dequote(q)
-
-  # Conditionals
 
   def.symbol("when") do (i: In):
     let vals = i.expect("quot", "quot")
@@ -218,15 +186,14 @@ proc lang_module*(i: In) =
       i.dequote(b)
       check = i.pop
 
-  def.symbol("quotesym") do (i: In):
-    let vals = i.expect("str")
-    let s = vals[0]
-    i.push(@[i.newSym(s.strVal)].newVal)
+  def.symbol("os") do (i: In):
+    i.push hostOS.newVal
 
-  def.symbol("quotecmd") do (i: In):
-    let vals = i.expect("str")
-    let s = vals[0]
-    i.push(@[newCmd(s.strVal)].newVal)
+  def.symbol("run") do (i: In):
+    let vals = i.expect("'sym")
+    let cmd = vals[0]
+    let res = execShellCmd(cmd.getString)
+    i.push(res.newVal)
 
   def.symbol("getenv") do (i: In):
     let vals = i.expect("'sym")
@@ -406,17 +373,13 @@ proc lang_module*(i: In) =
         res.add e
     i.push res.newVal
 
-  def.symbol("reduce") do (i: In):
-    let vals = i.expect("quot", "a", "quot")
-    var q = vals[0]
-    var acc = vals[1]
-    let s = vals[2]
-    for el in s.qVal:
-      i.push acc
-      i.push el
-      i.dequote q
-      acc = i.pop
-    i.push acc
+  def.symbol("foreach") do (i: In):
+    let vals = i.expect("quot", "quot")
+    var prog = vals[0]
+    var list = vals[1]
+    for litem in list.qVal:
+      i.push litem
+      i.dequote(prog)
 
   def.symbol("slice") do (i: In):
     let vals = i.expect("int", "int", "quot")
