@@ -8,8 +8,6 @@ switch("amd64.linux.gcc.path", "/usr/local/bin")
 switch("amd64.linux.gcc.exe", "x86_64-linux-musl-gcc")
 switch("amd64.linux.gcc.linkerexe", "x86_64-linux-musl-gcc")
 
-switch("opt", "size")
-
 when not defined(dev):
   switch("define", "release")
 

@@ -1,9 +1,9 @@
 import 
   strutils, 
+  algorithm,
   critbits,
   math
 import 
-  baseutils,
   parser, 
   value,
   interpreter
@@ -115,21 +115,20 @@ proc validate*(i: In, value: MnValue, t: string): bool {.gcsafe.} =
       raiseInvalid("Unknown type '$#'" % t)
 
 
-# The following is used in operator signatures
 proc expect*(i: var MnInterpreter, elements: varargs[string]): seq[MnValue] {.gcsafe.}=
   let sym = i.currSym.getString
   var valid = newSeq[string](0)
   result = newSeq[MnValue](0)
   let message = proc(invalid: string, elements: varargs[string]): string =
     var pelements = newSeq[string](0)
-    for e in elements.reverse:
+    for e in elements.reversed:
         pelements.add e
     let stack = pelements.join(" ")
     result = "Incorrect values found on the stack:\n"
     result &= "- expected: " & stack & " $1\n" % sym
     var other = ""
     if valid.len > 0:
-      other = valid.reverse.join(" ") & " "
+      other = valid.reversed.join(" ") & " "
     result &= "- got:      " & invalid & " " & other & sym
   var res = false
   var vTypes = newSeq[string](0)
@@ -143,8 +142,6 @@ proc expect*(i: var MnInterpreter, elements: varargs[string]): seq[MnValue] {.gc
     else:
       raiseInvalid(message(vTypes[c], elements))
     c = c+1
-
-
         
 proc reqQuotationOfQuotations*(i: var MnInterpreter, a: var MnValue) =
   a = i.pop

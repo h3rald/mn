@@ -87,7 +87,6 @@ type
   MnScope*  = object
     parent*: ref MnScope
     symbols*: CritBitTree[MnOperator]
-    sigils*: CritBitTree[MnOperator]
     kind*: MnScopeKind
   MnOperatorProc* = proc (i: In) {.gcsafe.}
   MnOperatorKind* = enum

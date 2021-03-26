@@ -6,7 +6,6 @@ import
   critbits,
   algorithm
 import 
-  baseutils,
   value,
   scope,
   parser
@@ -85,7 +84,7 @@ proc copy*(i: MnInterpreter, filename: string): MnInterpreter =
     path = joinPath(getCurrentDir(), filename)
   result = newMinInterpreter()
   result.filename = filename
-  result.pwd =  path.parentDirEx
+  result.pwd =  path.parentDir
   result.stack = i.stack
   result.trace = i.trace
   result.stackcopy = i.stackcopy
@@ -120,33 +119,6 @@ proc close*(i: In) =
   i.parser.close();
 
 proc push*(i: In, val: MnValue) {.gcsafe.} 
-
-proc call*(i: In, q: var MnValue): MnValue {.gcsafe.}=
-  var i2 = newMinInterpreter("<call>")
-  i2.trace = i.trace
-  i2.scope = i.scope
-  try:
-    i2.withScope(): 
-      for v in q.qVal:
-        i2.push v
-  except:
-    i.currSym = i2.currSym
-    i.trace = i2.trace
-    raise
-  return i2.stack.newVal
-
-proc callValue*(i: In, v: var MnValue): MnValue {.gcsafe.}=
-  var i2 = newMinInterpreter("<call-value>")
-  i2.trace = i.trace
-  i2.scope = i.scope
-  try:
-    i2.withScope(): 
-      i2.push v
-  except:
-    i.currSym = i2.currSym
-    i.trace = i2.trace
-    raise
-  return i2.stack[0]
 
 proc apply*(i: In, op: MnOperator, sym = "") {.gcsafe.}=
   if op.kind == mnProcOp:

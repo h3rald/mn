@@ -1,7 +1,7 @@
 import 
   streams, 
   strutils, 
-  mnpkg/baseutils,
+  os,
   mnpkg/parser, 
   mnpkg/value, 
   mnpkg/scope,
@@ -43,7 +43,7 @@ proc mnFile*(filename: string, op = "interpret", main = true): seq[string] {.dis
 
 proc mnStream(s: Stream, filename: string, op = "interpret", main = true): seq[string] {.discardable.}= 
   var i = newMinInterpreter(filename = filename)
-  i.pwd = filename.parentDirEx
+  i.pwd = filename.parentDir
   i.interpret(s)
   newSeq[string](0)
 
@@ -96,7 +96,7 @@ when isMainModule:
     i.open(s, "<repl>")
     var line: string
     while true:
-      stdout.write("=| ")
+      stdout.write(":: ")
       stdout.flushFile()
       line = stdin.readLine()
       let r = i.interpret($line)

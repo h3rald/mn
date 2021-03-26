@@ -1,7 +1,7 @@
 #!/usr/bin/env mn
 
 ; Validation
-(args size 2 <) ("No task specified" puts 1 exit) when
+(args size 2 <) ("No task specified" puts pop 1 exit) when
 
 args 1 get ":" split "taskspec" let
 taskspec 0 get "task" let
