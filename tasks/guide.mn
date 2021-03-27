@@ -1,0 +1,5 @@
+"tasks/pre.mn" read eval
+
+(
+  "hastyscribe --field/version=$# Mn_DeveloperGuide.md" (cfg_version) interpolate run
+) (guide__default) lambda

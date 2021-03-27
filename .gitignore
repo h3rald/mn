@@ -3,3 +3,5 @@ nimblecache/
 htmldocs/
 mn.exe
 mn_v*
+*.htm
+mn
