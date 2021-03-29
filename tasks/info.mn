@@ -14,3 +14,7 @@ null "cfg_description" let
         value "cfg_$#" (name) interpolate bind
     ) when
 ) foreach
+
+(
+    "$# v$# - $#" (cfg_name cfg_version cfg_description) interpolate puts pop
+) (info__default) lambda

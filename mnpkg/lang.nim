@@ -195,16 +195,16 @@ proc lang_module*(i: In) =
     let res = execShellCmd(cmd.getString)
     i.push(res.newVal)
 
-  def.symbol("getenv") do (i: In):
+  def.symbol("which") do (i: In):
     let vals = i.expect("'sym")
-    let a = vals[0]
-    i.push a.getString.getEnv.newVal
+    let s = vals[0]
+    i.push s.getString.findExe.newVal
+
+  def.symbol("os") do (i: In):
+    i.push hostOS.newVal
   
-  def.symbol("putenv") do (i: In):
-    let vals = i.expect("'sym", "'sym")
-    let key = vals[0]
-    let value = vals[1]
-    key.getString.putEnv value.getString
+  def.symbol("cpu") do (i: In):
+    i.push hostCPU.newVal
 
   def.symbol("timestamp") do (i: In):
     i.push getTime().toUnix().newVal

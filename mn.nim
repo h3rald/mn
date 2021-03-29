@@ -95,6 +95,7 @@ when isMainModule:
     var s = newStringStream("")
     i.open(s, "<repl>")
     var line: string
+    echo "mn v$#" % pkgVersion
     while true:
       stdout.write(":: ")
       stdout.flushFile()

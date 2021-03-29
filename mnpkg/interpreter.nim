@@ -199,7 +199,7 @@ proc push*(i: In, val: MnValue) {.gcsafe.}=
     if DEBUG:
       echo "-- push command: $#" % val.cmdVal
     let res = execCmdEx(val.cmdVal)
-    i.push res.output.newVal
+    i.push res.output.strip.newVal
   else:
     if DEBUG:
       echo "-- push literal: $#" % $val

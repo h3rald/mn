@@ -4,39 +4,52 @@ title: "About"
 -----
 {@ _defs_.md || 0 @}
 
-**min** is a concatenative, fully-homoiconic, functional, interpreted programming language. 
+**mn** is a concatenative, fully-homoiconic, functional, interpreted programming language. 
 
 This basically means that:
 
 * It is based on a somewhat obscure and slightly unintuitive programming paradigm, think of [Forth](http://www.forth.org/), [Factor](http://factorcode.org/) and [Joy](http://www.kevinalbrecht.com/code/joy-mirror/) but with parentheses for an extra [Lisp](https://common-lisp.net/)y flavor.
-* Programs written in min are actually written using *quotations*, i.e. lists.
-* It comes with map, filter, find, map-reduce, and loads of other functional goodies. See the {#link-module||seq#} for more.
+* Programs written in mn are actually written using *quotations*, i.e. lists.
+* It comes with map, filter, find, and loads of other functional goodies.
 * It is probably slower than the average production-ready programming language.
 
 ## Why?
 
-Because creating a programming language is something that every programmer needs to do, at some point in life. And also because there are way too few [concatenative](http://concatenative.org/wiki/view/Front%20Page) programming language out there -- so people are likely to be _less_ pissed off than if I made a yet another Lisp instead.
+mn is [min](https://min-lang.org) little brother. When I started implementing min, I wanted to create a small but practical programming language you could use for shell scripting and perform common tasks. As more feature requests piled in, I noticed it slowly became more and more comprehensive and _batteries-included_: I slowly swapped small, less-unknown and somewhat quirky libraries for regular expressions, compression etc. to more complete and well-known ones, I added HTTPS support (and OpenSSL), and then improved runtime checks when creating symbols, enhanced the type system, and so on. While min can now be used on its own to create quite complex programs, it became less minimal that originally intended.
 
-I always wanted to build a minimalist language, but that could also be used for real work and provided a standard library for common tasks and functionalities like regular expression support, cryptography, execution of external programs, shell-like operators, and keywords to work with files, and more.
-
-Additionally, I wanted it to be fully self-contained, cross-platform, and small. Not stupidly small, but I feel it's a good compromise compared to the alternatives out there, considering that you only need _one file_ to run any min program.
-
- I also created a static site generator called [HastySite](https://github.com/h3rald/hastysite), which also powers <https://min-lang.org>. HastySite internally uses min as the language to write the [rules](https://github.com/h3rald/min/blob/master/site/rules.min) to process the source files of the site, and also all its [scripts](https://github.com/h3rald/min/tree/master/site/scripts).
-
-Finally, I think more and more people should get to know concatenative programming languages, because [concatenative programming matters](http://evincarofautumn.blogspot.it/2012/02/why-concatenative-programming-matters.html).
+I tried to add compilation variants to reduce the modules to include but that made it more difficult to maintain and still included complex constructs like dictionaries and the full type system, so one day I decided to... fork it! 
 
 ## How?
 
-min is developed entirely in [Nim](https://nim-lang.org) -- the name is (almost) entirely a coincidence. I wanted to call it _minim_ but then shortened it for more... minimalism.
+mn is developed entirely in [Nim](https://nim-lang.org) and started off as a fork of the [https://min-lang.org](min) programming language. I took the v0.35.0 codebase and started removing stuff, including the only vowel included in the name. What else was removed you ask? Let's see... compared to min, mn:
 
-min's parser started off as a fork of Nim's JSON parser -- adapted to process a concatenative programming language with less primitive types than JSON. It is interpreted in the traditional sense: no bytecode, no JIT, just plain read, parse, and run. 
+* does not have dictionaries
+* does not have modules
+* does not have **require**, **include**, etc.
+* does not support compilation via Nim
+* does not have sigils
+* does not have an **operator** symbol, only **lambda**
+* does not have any dependency from third-party code
+* does not have type classes or type expressions, except for unions of basic types
+* does not have JSON interoperability
+* does not have error handling, i.e. a try/catch mechanism
+* does not have any built-in support for networking, cryptography, etc.
+* does not have a fancy REPL with autocompletion
+
+What *does* it have then? Well:
+
+* exactly 70 symbols, nearly all of which are borrowed from min
+* file reading/writing (via the {#link-symbol||read#} and {#link-symbol||write#} symbols)
+* stdin reading ({#link-symbol||gets#}) and writing ({#link-symbol||puts#})
+* external command execution via {#link-symbol||run#} and automatic command expansion for all strings wrapped in square brackets
+* string evaluation via {#link-symbol||eval#}
+* string interpolation via {#link-symbol||interpolate#}
+* a basic REPL
 
 ## Who?
 
-min was created and implemented by [Fabio Cevasco](https://h3rald.com), with contributions by [Peter Munch-Ellingsen](https://peterme.net), [Yanis Zafirópulos](https://github.com/drkameleon), and [baykus871](https://github.com/baykus871).
-
-Special thanks to [mwgkgk](https://github.com/mwgkgk) for contributing to the design of native dictionaries.
+mn was created and implemented by [Fabio Cevasco](https://h3rald.com), 
 
 ## When?
 
-min source code [repository](https://github.com/h3rald/min) was created on November 8^th 2014. This only means that I've been very slowly developing something that was actually made public at the end of July 2017.
+mn source code [repository](https://github.com/h3rald/mn) was created on March 23^rd^ 2021.

@@ -7,7 +7,7 @@
   font-size: 120%;  
   font-weight: 600;
 }
-.min-terminal {
+.mn-terminal {
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
@@ -26,10 +26,10 @@
     border: 2px solid #999;
     border-top: 10px solid #999;
 }
-.min-terminal p {
+.mn-terminal p {
   margin: 0 auto;  
 }
-.min-terminal p, .min-terminal p:first-child {
+.mn-terminal p, .mn-terminal p:first-child {
     margin-top: 0;
     margin-bottom: 0;
     text-shadow: none;
@@ -40,7 +40,7 @@
 }
 </style>
 
-## About min
+## About mn
 
 {@ docs/about.md || 1 @}
 
@@ -48,17 +48,13 @@
 
 {@ docs/get-started.md || 1 @}
 
-## Learning the min Language
+## Learning the mn Language
 
 {@ docs/learn.md || 1 @}
 
 ### Data Types
 
 {@ docs/learn-data-types.md || 2 @}
-
-### Quotations
-
-{@ docs/learn-quotations.md || 2 @}
 
 ### Operators 
 
@@ -67,10 +63,6 @@
 ### Definitions
 
 {@ docs/learn-definitions.md || 2 @}
-
-### Scopes
-
-{@ docs/learn-scopes.md || 2 @}
 
 ### Control Flow
 
@@ -83,86 +75,3 @@
 ## Reference
 
 {@ docs/reference.md || 1 @}
-
-
-### `lang` Module
-
-{@ docs/reference-lang.md || 1 @}
-
-### `stack` Module
-
-{@ docs/reference-stack.md || 1 @}
-
-### `seq` Module
-
-{@ docs/reference-seq.md || 1 @}
-
-### `io` Module
-
-{@ docs/reference-io.md || 1 @}
-
-### `logic` Module
-
-{@ docs/reference-logic.md || 1 @}
-
-### `str` Module
-
-{@ docs/reference-str.md || 1 @}
-
-### `sys` Module
-
-{@ docs/reference-sys.md || 1 @}
-
-### `num` Module
-
-{@ docs/reference-num.md || 1 @}
-
-### `time` Module
-
-{@ docs/reference-time.md || 1 @}
-
-### `math` Module
-
-{@ docs/reference-math.md || 1 @}
-
-
-{#op => 
-<a id="min-operator-id-$1"></a>
-[$1](class:reference-title)
-
-> %operator%
-> [ $2 **&rArr;** $3](class:kwd)
-> 
-> $4
- #}
-
-
-{#alias => 
-[$1](class:reference-title)
-
-> %operator%
-> [ $1 **&rArr;** $2](class:kwd)
-> 
-> See [$2](#min-operator-id-$2).
- #}
-
-{#sig => 
-[$1](class:reference-title) [](class:sigil)
-
-> %operator%
-> [ $1{{s}} **&rArr;** {{s}} $2](class:kwd)
-> 
-> See [$2](#min-operator-id-$2).
- #}
-
-{# link-page => $2 #}
-
-{# link-module => [$1 Module](#<code>$1</code>-Module) #}
-
-{# link-operator => [$2](#min-operator-id-$2) #}
-
-{# link-learn => #}
-
-{{learn-links =>   }}
-
-{{guide-download =>   }}

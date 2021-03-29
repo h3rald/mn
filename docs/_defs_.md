@@ -7,13 +7,6 @@
 {{2 => [<sub>2</sub>](class:kwd)}}
 {{3 => [<sub>3</sub>](class:kwd)}}
 {{4 => [<sub>4</sub>](class:kwd)}}
-{{e => [dict:error](class:kwd)}}
-{{tinfo => [dict:timeinfo](class:kwd)}}
-{{dstore => [dict:datastore](class:kwd)}}
-{{d => [dict](class:kwd)}}
-{{d1 => [dict<sub>1</sub>](class:kwd)}}
-{{d2 => [dict<sub>2</sub>](class:kwd)}}
-{{d0p => [dict<sub>\*</sub>](class:kwd)}}
 {{flt => [flt](class:kwd)}}
 {{i => [int](class:kwd)}}
 {{i1 => [int<sub>1</sub>](class:kwd)}}
@@ -49,23 +42,13 @@
 {{t => [true](class:kwd)}}
 {{null => [null](class:kwd)}}
 {{none => &#x2205;}}
-{{no-win => (not supported on Windows systems)}}
-{{help => [dict:help](class:kwd)}}
-{{sock => [dict:socket](class:kwd)}}
-{{url => [dict:url](class:kwd)}}
-{{req => [dict:http-request](class:kwd)}}
-{{res => [dict:http-response](class:kwd)}}
-{{sock1 => [dict:socket<sub>1</sub>](class:kwd)}}
-{{sock2 => [dict:socket<sub>2</sub>](class:kwd)}}
-{{m => _min_}}
-
-{{pcre => [Perl Compatible Regular Expression](https://www.pcre.org/)}}
+{{m => _mn_}}
 
 {#op => 
 <a id="op-$1"></a>
 ## $1 
 
-> %operator%
+> %symbol%
 > [ $2 **&rArr;** $3](class:kwd)
 > 
 > $4
@@ -74,45 +57,27 @@
 {#alias => 
 ## $1 
 
-> %operator%
+> %symbol%
 > [ $1 **&rArr;** $2](class:kwd)
 > 
 > See [$2](#op-$2).
  #}
 
-{#sig => 
-## $1 [](class:sigil)
-
-> %operator%
+> %symbol%
 > [ $1{{s}} **&rArr;** {{s}} $2](class:kwd)
 > 
 > See [$2](#op-$2).
  #}
 
-{# link-page => [$2](/$1/) #}
+{#op => 
+<a id="mn-symbol-id-$1"></a>
+[$1](class:reference-title)
 
-{# link-module => [`$1` Module](/reference-$1/) #}
-
-{# link-operator => [`$2`](/reference-$1#op-$2) #}
-
-{# link-learn => &rarr; Continue to [*$2*](/learn-$1) #}
-
-{{ learn-links =>
-> %tip%
-> Quick Links
+> %symbol%
+> [ $2 **&rArr;** $3](class:kwd)
 > 
-> * [Data Types](/learn-data-types)
-> * [Operators](/learn-operators)
-> * [Quotations](/learn-quotations)
-> * [Definitions](/learn-definitions)
-> * [Scopes](/learn-scopes)
-> * [Control Flow](/learn-control-flow)
-> * [Shell](/learn-shell)
-> * [Extending min](/learn-extending)
-}}
+> $4
+ #}
 
-{{guide-download => 
-> %tip%
-> Tip
-> 
-> A printable, self-contained guide containing more or less the same content of this web site can be downloaded from [here](https://h3rald.com/min/Min_DeveloperGuide.htm). }}
+{# link-symbol => [$1](#mn-symbol-id-$1) #}
+

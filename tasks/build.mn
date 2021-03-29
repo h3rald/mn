@@ -1,40 +1,38 @@
-"tasks/pre.mn" read eval 
+"tasks/info.mn" read eval 
 
 (
     (stage) let
     (target_os) let
-    (fullname) let
-    "mn" (o) let
-    (fullname)
-        ("mn_v$#_$#_x64" (cfg_version target_os) interpolate (o) bind)
-    when
+    "mn_v$#_$#_x64" (cfg_version target_os) interpolate (o) let
+    "" (ext) let
     (target_os "windows" ==)
-        ("$#.exe" (o) interpolate (o) bind)
+        (".exe" (ext) bind)
     when
     "Building mn - $# (x64) - $#" (target_os stage) interpolate puts pop
-    "nim c -d:$# --os:$# -o:$# --gc:orc --deepcopy:on --opt:size mn" (stage target_os o) interpolate (cmd) let
+    "nim c -d:$# --os:$# --gc:orc --deepcopy:on --opt:size mn" (stage target_os) interpolate (cmd) let
     cmd puts pop
     cmd run
+    "tar -czvf $#.tar.gz mn$#" (o ext) interpolate run
 ) (compile) lambda
 
 #| Tasks |#
 
 (
-    false os "release" compile
+    os "release" compile
 ) (build__default) lambda
 
 (
-    false os "dev" compile
+    os "dev" compile
 ) (build__dev) lambda
 
 (
-    true "windows" "release" compile
+    "windows" "release" compile
 ) (build__windows) lambda
 
 (
-    true "linux" "release" compile
+    "linux" "release" compile
 ) (build__linux) lambda
 
 (
-    true "macosx" "release" compile
+    "macosx" "release" compile
 ) (build__macosx) lambda
