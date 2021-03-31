@@ -76,16 +76,12 @@ jobs:
 
             # Package the resulting Linux binary
             - name: Create artifact (Linux)
-              run: |
-                  install -m 0755 ./mn .
-                  zip mn_v${{steps.version-nix.outputs.id}}_linux_x64.zip mn
+              run: zip mn_v${{steps.version-nix.outputs.id}}_linux_x64.zip mn
               if: matrix.os == 'ubuntu-latest'
 
             # Package the resulting MacOS binary
             - name: Create artifact (MacOS)
-              run: |
-                  install -m 0755 ./mn .
-                  zip mn_v${{steps.version-nix.outputs.id}}_macosx_x64.zip mn
+              run: zip mn_v${{steps.version-nix.outputs.id}}_macosx_x64.zip mn
               if: matrix.os == 'macosx-latest'
 
             # Package the resulting Windows binary
