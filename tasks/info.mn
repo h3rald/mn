@@ -18,3 +18,7 @@ null "cfg_description" let
 (
     "$# v$# - $#" (cfg_name cfg_version cfg_description) interpolate puts pop
 ) (info__default) lambda
+
+(
+    cfg_version puts pop
+) (info__version) lambda

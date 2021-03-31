@@ -35,12 +35,6 @@ jobs:
             # Checks out the repository
             - uses: actions/checkout@v2
 
-            - name: Project Metadata Action
-              uses: radcortez/project-metadata-action@1.0
-              id: metadata
-              with:
-                  metadata-file-path: "mn.yml"
-
             # Install libraries
             - name: install musl-gcc
               run: sudo apt-get install -y musl-tools
@@ -71,23 +65,33 @@ jobs:
               run: nim c -d:release --gc:orc --deepcopy:on --opt:size mn
               if: matrix.os == 'windows-latest'
 
+            - name: Get Version (Linux, MacOS)
+              id: version
+              run: echo "::set-output name=id::$(./mn mntool info:version)"
+              if: matrix.os == 'macos-latest' || matrix.os == 'linux-latest'
+
+            - name: Get Version (Windows)
+              id: version
+              run: echo "::set-output name=id::$(mn mntool info:version)"
+              if: matrix.os == 'windows-latest'
+
             # Package the resulting Linux binary
             - name: Create artifact (Linux)
               run: |
                   install -m 0755 ./mn .
-                  zip mn_v${{steps.metadata.outputs.version}}_linux_x64.zip mn
+                  zip mn_v${{steps.version.outputs.id}}_linux_x64.zip mn
               if: matrix.os == 'linux-latest'
 
             # Package the resulting MacOS binary
             - name: Create artifact (MacOS)
               run: |
                   install -m 0755 ./mn .
-                  zip mn_v${{steps.metadata.outputs.version}}_macosx_x64.zip mn
+                  zip mn_v${{steps.version.outputs.id}}_macosx_x64.zip mn
               if: matrix.os == 'macosx-latest'
 
             # Package the resulting Windows binary
             - name: Create artifact (Windows)
-              run: 7zip a -tzip mn_v${{steps.metadata.outputs.version}}_windows_x64.zip mn.exe
+              run: 7zip a -tzip mn_v${{steps.version.outputs.id}}_windows_x64.zip mn.exe
               if: matrix.os == 'windows-latest'
 
             # Upload artifacts
