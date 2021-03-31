@@ -7,7 +7,7 @@ on:
 
 jobs:
     # First, build and package our different assets
-    package:
+    release:
         name: "Package"
 
         # Set up a matrix of different configurations:
@@ -68,7 +68,7 @@ jobs:
             - name: Get Version (Linux, MacOS)
               id: version-nix
               run: echo "::set-output name=id::$(./mn mntool info:version)"
-              if: matrix.os == 'macos-latest' || matrix.os == 'linux-latest'
+              if: matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'
 
             - name: Get Version (Windows)
               id: version-win
@@ -80,7 +80,7 @@ jobs:
               run: |
                   install -m 0755 ./mn .
                   zip mn_v${{steps.version-nix.outputs.id}}_linux_x64.zip mn
-              if: matrix.os == 'linux-latest'
+              if: matrix.os == 'ubuntu-latest'
 
             # Package the resulting MacOS binary
             - name: Create artifact (MacOS)
@@ -95,51 +95,11 @@ jobs:
               if: matrix.os == 'windows-latest'
 
             # Upload artifacts
-            - name: Upload Artifact
-              uses: "actions/upload-artifact@v1"
-              with:
-                  path: mn_v*.zip
-
-    # Then, let's prepare our new release and upload the assets above
-    upload:
-        name: "Upload"
-        runs-on: ubuntu-latest
-        if: ${{ always() }}
-
-        # This should run after all matrix job (for linux, mac, etc) above have finished
-        needs: [package]
-
-        steps:
-            - name: "Cancel similar actions in progress"
-              uses: styfle/cancel-workflow-action@0.6.0
-              with:
-                  access_token: ${{ github.token }}
-
-            # Download all of the previously created assets
-            # and put them in an ./assets folder
-            - uses: actions/download-artifact@v2
-              with:
-                  path: ./assets
-
-            # That's just for debugging to make sure everything is in place
-            - name: Display structure of downloaded files
-              run: ls -R
-
-            # Create a new release
-            - id: get-release
-              uses: pozetroninc/github-action-get-latest-release@master
-              with:
-                  repository: ${{ github.repository }}
-
-            # Post all of the above assets (under ./assets)
-            # as part of the newly created release
-            - name: Upload Release Assets
-              id: upload-release-assets
-              uses: dwenegar/upload-release-assets@v1
+            - name: "Upload to release"
+              uses: xresloader/upload-to-github-release@v1
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  release_id: ${{ steps.get-release.outputs.release }}
-                  assets_path: ./assets
-
-            # Celebrate! :)
+                  file: "mn_v*.zip"
+                  update_latest_release: true
+                  verbose: true
