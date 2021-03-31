@@ -1,0 +1,141 @@
+name: Release
+
+# Controls when the action will run.
+on:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+jobs:
+    # First, build and package our different assets
+    package:
+        name: "Package"
+
+        # Set up a matrix of different configurations:
+        # for now Linux, MacOS and Windows
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os:
+                    - ubuntu-latest
+                    - macos-latest
+                    - windows-latest
+
+        env:
+            CHOOSENIM_CHOOSE_VERSION: stable
+            CHOOSENIM_NO_ANALYTICS: 1
+
+        steps:
+            # Cancel other actions of the same type that might be already running
+
+            - name: "Cancel similar actions in progress"
+              uses: styfle/cancel-workflow-action@0.6.0
+              with:
+                  access_token: ${{ github.token }}
+
+            # Checks out the repository
+            - uses: actions/checkout@v2
+
+            - name: Project Metadata Action
+              uses: radcortez/project-metadata-action@1.0
+              id: metadata
+              with:
+              metadata-file-path: "mn.yml"
+
+            # Install libraries
+            - name: install musl-gcc
+              run: sudo apt-get install -y musl-tools
+              if: matrix.os == 'ubuntu-latest'
+
+            # Set path
+            - name: Update $PATH
+              run: echo "$HOME/.nimble/bin" >> $GITHUB_PATH
+
+            # Install the compiler
+            - name: Install Nim
+              run: |
+                  curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
+                  sh init.sh -y
+
+            # Build for linux
+            - name: Build (Linux)
+              run: nim c -d:release --gcc.exe:musl-gcc --gcc.linkerexe:musl-gcc --gc:orc --deepcopy:on --opt:size mn
+              if: matrix.os == 'ubuntu-latest'
+
+            # Build for MacOS
+            - name: Build (MacOS)
+              run: nim c -d:release --gc:orc --deepcopy:on --opt:size mn
+              if: matrix.os == 'macos-latest'
+
+            # Build for Windows
+            - name: Build (Windows)
+              run: nim c -d:release --gc:orc --deepcopy:on --opt:size mn
+              if: matrix.os == 'windows-latest'
+
+            # Package the resulting Linux binary
+            - name: Create artifact (Linux)
+              run: |
+                  install -m 0755 ./mn .
+                  zip mn_v${{steps.metadata.outputs.version}}_linux_x64.zip mn
+              if: matrix.os == 'linux-latest'
+
+            # Package the resulting MacOS binary
+            - name: Create artifact (MacOS)
+              run: |
+                  install -m 0755 ./mn .
+                  zip mn_v${{steps.metadata.outputs.version}}_macosx_x64.zip mn
+              if: matrix.os == 'macosx-latest'
+
+            # Package the resulting Windows binary
+            - name: Create artifact (Windows)
+              run: 7zip a -tzip mn_v${{steps.metadata.outputs.version}}_windows_x64.zip mn.exe
+              if: matrix.os == 'windows-latest'
+
+            # Upload artifacts
+            - name: Upload Artifact
+              uses: "actions/upload-artifact@v1"
+              with:
+                  path: mn_v*.zip
+
+    # Then, let's prepare our new release and upload the assets above
+    upload:
+        name: "Upload"
+        runs-on: ubuntu-latest
+        if: ${{ always() }}
+
+        # This should run after all matrix job (for linux, mac, etc) above have finished
+        needs: [package]
+
+        steps:
+            - name: "Cancel similar actions in progress"
+              uses: styfle/cancel-workflow-action@0.6.0
+              with:
+                  access_token: ${{ github.token }}
+
+            # Download all of the previously created assets
+            # and put them in an ./assets folder
+            - uses: actions/download-artifact@v2
+              with:
+                  path: ./assets
+
+            # That's just for debugging to make sure everything is in place
+            - name: Display structure of downloaded files
+              run: ls -R
+
+            # Create a new release
+            - id: get-release
+              uses: pozetroninc/github-action-get-latest-release@master
+              with:
+                  repository: ${{ github.repository }}
+
+            # Post all of the above assets (under ./assets)
+            # as part of the newly created release
+            - name: Upload Release Assets
+              id: upload-release-assets
+              uses: dwenegar/upload-release-assets@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  release_id: ${{ steps.get-release.outputs.release }}
+                  assets_path: ./assets
+
+            # Celebrate! :)
