@@ -76,7 +76,7 @@ jobs:
 
             - name: Get Version (Windows)
               id: version-win
-              run: echo "::set-output name=id::$(mn mntool info:version)"
+              run: echo "::set-output name=id::$(.\mn.exe mntool info:version)"
               if: matrix.os == 'windows-latest'
 
             # Package the resulting Linux binary
