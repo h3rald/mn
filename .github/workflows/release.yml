@@ -6,9 +6,8 @@ on:
     workflow_dispatch:
 
 jobs:
-    # First, build and package our different assets
     release:
-        name: "Package"
+        name: "Release"
 
         # Set up a matrix of different configurations:
         # for now Linux, MacOS and Windows
