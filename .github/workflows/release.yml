@@ -39,7 +39,7 @@ jobs:
               uses: radcortez/project-metadata-action@1.0
               id: metadata
               with:
-              metadata-file-path: "mn.yml"
+                  metadata-file-path: "mn.yml"
 
             # Install libraries
             - name: install musl-gcc
