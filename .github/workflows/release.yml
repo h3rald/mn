@@ -61,7 +61,7 @@ jobs:
 
             # Build for Windows
             - name: Build (Windows)
-              run: nim c -d:release --gc:orc --deepcopy:on --opt:size mn
+              run: .\nimble\bin\nim c -d:release --gc:orc --deepcopy:on --opt:size mn
               if: matrix.os == 'windows-latest'
 
             - name: Get Version (Linux, MacOS)
@@ -89,6 +89,14 @@ jobs:
               run: 7zip a -tzip mn_v${{steps.version-win.outputs.id}}_windows_x64.zip mn.exe
               if: matrix.os == 'windows-latest'
 
+            - name: "Get current release"
+              id: current-release
+              uses: InsonusK/get-latest-release@v1.0.1
+              with:
+                  myToken: ${{ github.token }}
+                  exclude_types: "release"
+                  view_top: 1
+
             # Upload artifacts
             - name: "Upload to release"
               uses: xresloader/upload-to-github-release@v1
@@ -96,5 +104,6 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   file: "mn_v*.zip"
-                  update_latest_release: true
+                  overwrite: true
+                  release_id: ${{steps.current-release.outputs.id }}
                   verbose: true
