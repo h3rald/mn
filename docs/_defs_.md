@@ -54,21 +54,6 @@
 > $4
  #}
 
-{#alias => 
-## $1 
-
-> %symbol%
-> [ $1 **&rArr;** $2](class:kwd)
-> 
-> See [$2](#op-$2).
- #}
-
-> %symbol%
-> [ $1{{s}} **&rArr;** {{s}} $2](class:kwd)
-> 
-> See [$2](#op-$2).
- #}
-
 {#op => 
 <a id="mn-symbol-id-$1"></a>
 [$1](class:reference-title)

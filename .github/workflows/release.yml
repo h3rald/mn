@@ -87,7 +87,7 @@ jobs:
             # Package the resulting MacOS binary
             - name: Create artifact (MacOS)
               run: zip mn_v${{steps.version-nix.outputs.id}}_macosx_x64.zip mn
-              if: matrix.os == 'macosx-latest'
+              if: matrix.os == 'macos-latest'
 
             # Package the resulting Windows binary
             - name: Create artifact (Windows)

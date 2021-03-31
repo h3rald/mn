@@ -1,10 +1,7 @@
----
-
+-----
 content-type: "page"
 title: "Get Started"
-
----
-
+-----
 {@ _defs_.md || 0 @}
 
 You can download one of the following pre-built mn binaries:
