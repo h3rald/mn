@@ -91,7 +91,7 @@ jobs:
 
             # Package the resulting Windows binary
             - name: Create artifact (Windows)
-              run: 7zip a -tzip mn_v${{steps.version-win.outputs.id}}_windows_x64.zip mn.exe
+              run: Compress-Archive -Path mn.exe -DestinationPath mn_v${{steps.version-win.outputs.id}}_windows_x64.zip
               if: matrix.os == 'windows-latest'
 
             - name: "Get current release"
