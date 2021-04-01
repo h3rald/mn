@@ -1,4 +1,4 @@
-name: Release
+name: Add artifacts to current release
 
 # Controls when the action will run.
 on:
@@ -78,12 +78,12 @@ jobs:
 
             # Package the resulting Linux/MacOS binary
             - name: Create artifact (Linux, MacOS)
-              run: zip mn_${{steps.current-release.outputs.name }}_${{steps.os.outputs.id}}_x64.zip mn
+              run: zip mn_${{steps.current-release.outputs.tag_name}}_${{steps.os.outputs.id}}_x64.zip mn
               if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
               
             # Package the resulting Windows binary
             - name: Create artifact (Windows)
-              run: Compress-Archive -Path mn.exe -DestinationPath mn_v${{steps.version-win.outputs.id}}_windows_x64.zip
+              run: Compress-Archive -Path mn.exe -DestinationPath mn_${{steps.current-release.outputs.tag_name}}_windows_x64.zip
               if: matrix.os == 'windows-latest'
 
             # Upload artifacts
