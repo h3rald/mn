@@ -4,9 +4,9 @@ title: "Learn"
 -----
 {@ _defs_.md || 0 @}
 
-{{m}} is a stack-based, concatenative programming language that uses postfix notation. If you already know [Forth](http://www.forth.org/), [Factor](http://factorcode.org/) or [Joy](http://www.kevinalbrecht.com/code/joy-mirror/), or if you ever used an [RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) calculator, then mn will look somewhat familiar to you. 
+{{m}} is a stack-based, concatenative programming language that uses postfix notation. If you already know [Forth](http://www.forth.org/), [Factor](http://factorcode.org/) or [Joy](http://www.kevinalbrecht.com/code/joy-mirror/), or if you ever used an [RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) calculator, then {{m}} will look somewhat familiar to you. 
 
-If not, well, here's how a short mn program looks like:
+If not, well, here's how a short {{m}} program looks like:
 
     ; This is a comment
     (1 2 3 4 5) (dup *) map

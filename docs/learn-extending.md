@@ -7,11 +7,11 @@ title: "Learn: Extending mn"
 {{m}} provides a fairly very basic standard library. If you want to extend it, you basically have the following options:
 
 * Implementing new {{m}} symbols using {{m}} itself
-* Embedding mn in your [Nim](https://nim-lang.org) program
+* Embedding {{m}} in your [Nim](https://nim-lang.org) program
 
 ## Implementing new mn symbols using mn itself
 
-When you just want to create more high-level mn symbol using functionalities that are already available in mn, the easiest way is to create your own reusable mn symbols in separate files.
+When you just want to create more high-level {{m}} symbol using functionalities that are already available in mn, the easiest way is to create your own reusable {{m}} symbols in separate files.
 
 
 ```
@@ -31,7 +31,7 @@ Save your code to a file (e.g. *quickpows.mn*) and you can use it in other nim f
 
 ## Embedding mn in your Nim program
 
-If you'd like to use {{m}} as a scripting language within your own program, and maybe extend it by implementing additional symbols, you can use mn as a Nim library.
+If you'd like to use {{m}} as a scripting language within your own program, and maybe extend it by implementing additional symbols, you can use {{m}} as a Nim library.
 
 To do so:
 
@@ -64,9 +64,9 @@ proc hastysite_module*(i: In, hs1: HastySite) =
 
 Then you need to:
 
-4. Instantiate a new mn interpreter using the `newMnInterpreter` proc.
+4. Instantiate a new {{m}} interpreter using the `newMnInterpreter` proc.
 5. Run the `proc` used to define the module.
-6. Call the `interpret` method to interpret a mn file or string:
+6. Call the `interpret` method to interpret a {{m}} file or string:
 
 ```
 proc interpret(hs: HastySite, file: string) =
@@ -78,4 +78,4 @@ proc interpret(hs: HastySite, file: string) =
 > %tip%
 > Tip
 > 
-> For more information on how to create new symbols with Nim, have a look in the [lang.nim](https://github.com/h3rald/mn/tree/master/mnpkg/lang.nim) of the mn repository, which contains all the mn symbols included in mn.
+> For more information on how to create new symbols with Nim, have a look in the [lang.nim](https://github.com/h3rald/mn/tree/master/mnpkg/lang.nim) file in the {{m}} repository, which contains all the symbols included in {{m}}.

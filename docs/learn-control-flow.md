@@ -4,8 +4,7 @@ title: "Learn: Control Flow"
 -----
 {@ _defs_.md || 0 @}
 
-The {#link-module#} provide some symbols that can be used for the most common control flow statements. Unlike most programming languages, mn does not differentiate between functions and statements -- control flow statements are just ordinary symbols that manipulate the main stack.
-
+{{m}} provides some symbols that can be used for the most common control flow statements. Unlike most programming languages, {{m}} does not differentiate between functions and statements -- control flow statements are just ordinary symbols that manipulate the main stack.
 
 ## Conditionals
 
@@ -14,21 +13,21 @@ The {#link-symbol||when#} symbol can be used to implement conditional statements
 For example, consider the following program:
 
      (
-       "unknown" (os) let 
+       "Unknown" (system) let 
         [uname] (uname) let
         (uname "MINGW" indexof -1 !=)
-          ("windows" (os) bind)  
+          ("Windows" (system) bind)  
         when
         (uname "Linux" indexof -1 !=)
-          ("linux" (os) bind)  
+          ("Linux" (system) bind)  
         when
         (uname "Darwin" indexof -1 !=)
-          ("macosx" (os) bind)  
+          ("macOS" (system) bind)  
         when
-       "The current OS is $#" (os) interpolate puts
+       "The current OS is $#" (system) interpolate puts
      ) (display-os) lambda
 
-This program defines a symbol `display-file-info` that execute the **uname** system command to discover the operating system and outputs a message.
+This program defines a symbol `display-os` that execute the **uname** system command to discover the operating system and outputs a message.
 
 ## Loops
 

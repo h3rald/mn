@@ -10,7 +10,7 @@ Every {{m}} program needs _operators_ to:
 * Perform operations on data
 * Provide side effects (read/print to standard input/output/files, etc.)
 
-An mn symbol is a single word that is either provided by mn like `dup` or defined by the user. User-defined symbols must:
+An {{m}} symbol is a single word that is either provided by {{m}} like `dup` or defined by the user. User-defined symbols must:
 
 * Start with a letter
 * Contain zero or more letters, numbers and/or underscores.
@@ -21,7 +21,7 @@ To define a new operator symbol, you can use the {#link-symbol||lambda#} symbol.
      
 Note that this feels like using {#link-symbol||let#}, but the main difference between {#link-symbol||lambda#} and {#link-symbol||let#} is that `lambda` only works on quotations and it doesn't auto-quote them, so that they are immediately evaluated when the corresponding symbol is pushed on the stack.
 
-> %tip
+> %tip%
 > Tip
 > 
 > You can use {#link-symbol||lambda-bind#} to re-set a previously set lambda.

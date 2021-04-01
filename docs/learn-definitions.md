@@ -7,20 +7,20 @@ title: "Learn: Definitions"
 Being a concatenative language, {{m}} does not really need named parameters or variables: symbols just pop elements off the main stack in order, and that's normally enough. There is however one small problem with the traditional concatenative paradigm; consider the following program for example:
 
      dup 
-     () cons "Compiling on $#..." swap interpolate puts pop
-     () cons "nim --os:$# c test.nim" swap interpolate run
+     () cons "Compiling in $# mode..." swap interpolate puts pop
+     () cons "nim -d:$# c test.nim" swap interpolate run
 
-This program takes an operating system indetifier (windows, linux, osx) and attempts to build the file **test.nim** for it. Sure, it is remarkable that no variables are needed for such a program, but it is not very readable: because no variables are used, it is often necessary to make copies of elements and push them to the end of the stack -- that's what the {#link-symbol||dup#} and {#link-symbol||swap#} are used for.
+This program takes an string containing either "release" or "development" and attempts to build the file **test.nim** for it. Sure, it is remarkable that no variables are needed for such a program, but it is not very readable: because no variables are used, it is often necessary to make copies of elements and push them to the end of the stack -- that's what the {#link-symbol||dup#} and {#link-symbol||swap#} are used for.
 
 The good news is that you can use the {#link-symbol||let#} symbol to define new symbols, and symbols can also be set to literals of course.
 
 Consider the following program:
 
-     (os) let
-     "Compiling on $#..." (os) interpolate puts pop
-     "nim --os:$# c test.nim" (os) interpolate run
+     (mode) let
+     "Compiling in $# mode..." (mode) interpolate puts pop
+     "nim -d:$# c test.nim" (mode) interpolate run
 
-In this case, the first element on the stack is saved to a symbol called **os**, which is then used whenever needed in the rest of the program.
+In this case, the first element on the stack is saved to a symbol called **mode**, which is then used whenever needed in the rest of the program.
 
 
 ## Lexical scoping and binding

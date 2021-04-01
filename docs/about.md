@@ -4,24 +4,26 @@ title: "About"
 -----
 {@ _defs_.md || 0 @}
 
-**mn** is a concatenative, fully-homoiconic, functional, interpreted programming language. 
+{{m}} is a concatenative, fully-homoiconic, functional, interpreted programming language. 
 
 This basically means that:
 
 * It is based on a somewhat obscure and slightly unintuitive programming paradigm, think of [Forth](http://www.forth.org/), [Factor](http://factorcode.org/) and [Joy](http://www.kevinalbrecht.com/code/joy-mirror/) but with parentheses for an extra [Lisp](https://common-lisp.net/)y flavor.
-* Programs written in mn are actually written using *quotations*, i.e. lists.
+* Programs written in {{m}} are actually written using *quotations*, i.e. lists.
 * It comes with map, filter, find, and loads of other functional goodies.
 * It is probably slower than the average production-ready programming language.
 
 ## Why?
 
-mn is [min](https://min-lang.org) little brother. When I started implementing min, I wanted to create a small but practical programming language you could use for shell scripting and perform common tasks. As more feature requests piled in, I noticed it slowly became more and more comprehensive and _batteries-included_: I slowly swapped small, less-unknown and somewhat quirky libraries for regular expressions, compression etc. to more complete and well-known ones, I added HTTPS support (and OpenSSL), and then improved runtime checks when creating symbols, enhanced the type system, and so on. While min can now be used on its own to create quite complex programs, it became less minimal that originally intended.
+{{m}} is [min](https://min-lang.org)'s little brother. When I started implementing min, I wanted to create a small but practical programming language you could use for shell scripting and perform common tasks. As more feature requests piled in, I noticed it slowly became more and more comprehensive and _batteries-included_: I slowly swapped small, less-unknown and somewhat quirky libraries used for regular expressions, compression etc. with more complete and well-known ones, added HTTPS support (and OpenSSL), improved runtime checks when creating symbols, enhanced the type system, and so on. While min can now be used on its own to create quite complex programs, it became less minimal than originally intended.
 
-I tried to add compilation variants to reduce the modules to include but that made it more difficult to maintain and still included complex constructs like dictionaries and the full type system, so one day I decided to... fork it! 
+I tried to add compilation variants to reduce the modules to include but that made it more difficult to maintain and still included complex constructs like dictionaries and the full type system, so one day I decided to... fork it! And that's how {{m}} was born.
+
+Is {{m}} the *successor* of min? No! As I said, it is min's little brother, and it has its own (somewhat more minimalist) life. If you want to create a quick script to glue some shell commands together, then {{m}} is definitely the fastest way to do so. If you want to use the concatenative paradigm to create more complex applications, then min comes with a much bigger toolbox.
 
 ## How?
 
-mn is developed entirely in [Nim](https://nim-lang.org) and started off as a fork of the [https://min-lang.org](min) programming language. I took the v0.35.0 codebase and started removing stuff, including the only vowel included in the name. What else was removed you ask? Let's see... compared to min, mn:
+{{m}} is developed entirely in [Nim](https://nim-lang.org) and started off as a fork of the [min](https://min-lang.org) programming language. I took the v0.35.0 codebase and started removing stuff, including the only vowel used in the language name. What else was removed you ask? Let's see... compared to min, {{m}}:
 
 * does not have dictionaries
 * does not have modules
@@ -36,7 +38,7 @@ mn is developed entirely in [Nim](https://nim-lang.org) and started off as a for
 * does not have any built-in support for networking, cryptography, etc.
 * does not have a fancy REPL with autocompletion
 
-What *does* it have then? Well:
+What *does* it have then? Well, {{m}} provides:
 
 * exactly 70 symbols, nearly all of which are borrowed from min
 * file reading/writing (via the {#link-symbol||read#} and {#link-symbol||write#} symbols)
@@ -48,8 +50,8 @@ What *does* it have then? Well:
 
 ## Who?
 
-mn was created and implemented by [Fabio Cevasco](https://h3rald.com), 
+{{m}} was created and implemented by [Fabio Cevasco](https://h3rald.com), 
 
 ## When?
 
-mn source code [repository](https://github.com/h3rald/mn) was created on March 23^rd^ 2021.
+{{m}} source code [repository](https://github.com/h3rald/mn) was created on March 23^rd 2021.

@@ -6,7 +6,7 @@ title: "Reference"
 
 ## Notation
 
-The following notation is used in the signature of all mn symbols:
+The following notation is used in the signature of all {{m}} symbols:
 
 ### Types and Values
 
