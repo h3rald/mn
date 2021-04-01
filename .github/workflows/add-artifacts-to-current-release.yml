@@ -94,5 +94,6 @@ jobs:
               with:
                   file: "mn_v*.zip"
                   overwrite: true
+                  tag_name: ${{steps.current-release.outputs.tag_name}}
                   release_id: ${{steps.current-release.outputs.id }}
                   verbose: true
