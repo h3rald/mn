@@ -26,7 +26,7 @@ Alternatively, you can build m from source as follows:
 To start the {{m}} REPL, run [mn](class:cmd) with no arguments. You will be presented with a prompt displaying the path to the current directory:
 
 > %mn-terminal%
-> mn v$version
+> mn v{{$version}}
 > [::](class:prompt)
 
 You can type {{m}} code and press [ENTER](class:kbd) to evaluate it immediately:

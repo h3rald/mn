@@ -1,0 +1,9 @@
+
+
+(
+  "Copying developer guide.." puts pop
+  "cp Mn_DeveloperGuide.htm ../h3rald/assets/mn/" run
+  "cp Mn_DeveloperGuide.htm ../h3rald/output/mn/" run
+  "Done." puts pop
+  
+) (h3rald__default) lambda

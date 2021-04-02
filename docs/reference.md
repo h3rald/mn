@@ -87,10 +87,9 @@ Returns {{t}} if {{a1}} is equal to {{a2}}, {{f}} otherwise. #}
 Returns {{t}} if {{a1}} is not equal to {{a2}}, {{f}} otherwise. #}
 
 {#op||&&||{{q}}||{{b}}||
-Assuming that {{q}} is a quotation of quotations each evaluating to a boolean value, it pushes {{t}} on the stack if they all evaluate to {{t}}, {{f}} otherwise.
- #}
+Assuming that {{q}} is a quotation of quotations each evaluating to a boolean value, it pushes {{t}} on the stack if they all evaluate to {{t}}, {{f}} otherwise. #}
  
-{#op||\|\|||{{q}}||{{b}}||
+{#op|| \|\| ||{{q}}||{{b}}||
 Assuming that {{q}} is a quotation of quotations each evaluating to a boolean value, it pushes {{t}} on the stack if any evaluates to {{t}}, {{f}} otherwise.
  #}
 
@@ -228,6 +227,9 @@ Joins the elements of {{q}} using separator {{sl}}, producing {{s}}.#}
 Defines a new symbol {{sl}}, containing the specified quotation {{q}}. Unlike with `let`, in this case {{q}} will not be quoted, so its values will be pushed on the stack when the symbol {{sl}} is pushed on the stack.
 
 Essentially, this symbol allows you to define an symbol without any validation of constraints and bind it to a symbol.#}
+
+{#op||lambda-bind||{{q}} {{sl}}||{{none}}||
+Binds the specified quotation (unquoted) to an existing symbol {{sl}}.#}
 
 {#op||length||{{sl}}||{{i}}||
 Returns the length of {{sl}}.#}
