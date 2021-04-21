@@ -228,7 +228,7 @@ Defines a new symbol {{sl}}, containing the specified quotation {{q}}. Unlike wi
 
 Essentially, this symbol allows you to define an symbol without any validation of constraints and bind it to a symbol.#}
 
-{#op||lambda-bind||{{q}} {{sl}}||{{none}}||
+{#op||lambdabind||{{q}} {{sl}}||{{none}}||
 Binds the specified quotation (unquoted) to an existing symbol {{sl}}.#}
 
 {#op||length||{{sl}}||{{i}}||

@@ -116,7 +116,7 @@ proc lang_module*(i: In) =
     if not res:
       raiseUndefined("Attempting to bind undefined symbol: " & symbol)
       
-  def.symbol("lambda-bind") do (i: In):
+  def.symbol("lambdabind") do (i: In):
     let vals = i.expect("'sym", "quot")
     let sym = vals[0]
     var q1 = vals[1] 

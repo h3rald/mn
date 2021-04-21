@@ -14,7 +14,7 @@ You can download one of the following pre-built {{m}} binaries:
 
 ## Building from source
 
-Alternatively, you can build m from source as follows:
+Alternatively, you can build {{m}} from source as follows:
 
 1. Download and install [Nim](https://nim-lang.org).
 3. Clone the {{m}} [repository](https://github.com/h3rald/mn).
