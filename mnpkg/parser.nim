@@ -656,6 +656,7 @@ proc parseMinValue*(p: var MnParser, i: In): MnValue =
   
 proc print*(a: MnValue) =
   stdout.write($$a)
+  stdout.flushFile()
 
 # Predicates
 
