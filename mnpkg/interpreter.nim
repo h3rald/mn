@@ -1,14 +1,17 @@
 import 
   streams, 
   strutils, 
-  os,
-  osproc,
+  #os,
+  #osproc,
   critbits,
   algorithm
 import 
   value,
   scope,
   parser
+
+when defined(js):
+  import ./js
 
 type
   MnTrappedException* = ref object of CatchableError
@@ -59,8 +62,9 @@ template withScope*(i: In, body: untyped): untyped =
 
 proc newMinInterpreter*(filename = "input", pwd = ""): MnInterpreter =
   var path = pwd
-  if not pwd.isAbsolute:
-    path = joinPath(getCurrentDir(), pwd)
+  # TODO fix for js
+  #if not pwd.isAbsolute:
+  #  path = joinPath(getCurrentDir(), pwd)
   var stack:MnStack = newSeq[MnValue](0)
   var trace:MnStack = newSeq[MnValue](0)
   var stackcopy:MnStack = newSeq[MnValue](0)
@@ -79,12 +83,13 @@ proc newMinInterpreter*(filename = "input", pwd = ""): MnInterpreter =
   return i
 
 proc copy*(i: MnInterpreter, filename: string): MnInterpreter =
-  var path = filename
-  if not filename.isAbsolute:
-    path = joinPath(getCurrentDir(), filename)
+  # TODO fix for js
+  #var path = filename
+  #if not filename.isAbsolute:
+  #  path = joinPath(getCurrentDir(), filename)
   result = newMinInterpreter()
   result.filename = filename
-  result.pwd =  path.parentDir
+  #result.pwd =  path.parentDir
   result.stack = i.stack
   result.trace = i.trace
   result.stackcopy = i.stackcopy
@@ -198,8 +203,9 @@ proc push*(i: In, val: MnValue) {.gcsafe.}=
   elif val.kind == mnCommand:
     if DEBUG:
       echo "-- push command: $#" % val.cmdVal
-    let res = execCmdEx(val.cmdVal)
-    i.push res.output.strip.newVal
+    #TODO: fix (handle for JS)
+    #let res = execCmdEx(val.cmdVal)
+    #i.push res.output.strip.newVal
   else:
     if DEBUG:
       echo "-- push literal: $#" % $val

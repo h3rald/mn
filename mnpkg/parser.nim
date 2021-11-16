@@ -5,6 +5,9 @@ import
   streams, 
   critbits
 
+when defined(js):
+  import ./js
+
 import unicode except strip
 
 type

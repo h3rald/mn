@@ -1,13 +1,17 @@
 import 
   streams, 
   strutils, 
-  os,
   mnpkg/parser, 
   mnpkg/value, 
   mnpkg/scope,
   mnpkg/interpreter, 
   mnpkg/utils,
   mnpkg/lang 
+
+when defined(js):
+  import mnpkg/js
+when defined(c):
+  import os
 
 export 
   parser,
@@ -43,7 +47,8 @@ proc mnFile*(filename: string, op = "interpret", main = true): seq[string] {.dis
 
 proc mnStream(s: Stream, filename: string, op = "interpret", main = true): seq[string] {.discardable.}= 
   var i = newMinInterpreter(filename = filename)
-  i.pwd = filename.parentDir
+  #TODO fix js
+  #i.pwd = filename.parentDir
   i.interpret(s)
   newSeq[string](0)
 
@@ -69,9 +74,10 @@ proc mnFile*(filename: string, op = "interpret", main = true): seq[string] {.dis
 
 when isMainModule:
   import 
-    terminal,
     parseopt,
     mnpkg/meta
+  when defined(c):
+    import terminal
 
   var exeName = "mn"
 
@@ -161,8 +167,12 @@ when isMainModule:
   elif file != "":
     mnFile file, op
   else:
-    if isatty(stdin):
+    when defined(js):
       mnSimpleRepl()
       quit(0)
     else:
-      mnStream newFileStream(stdin), "stdin", op
+      if isatty(stdin):
+        mnSimpleRepl()
+        quit(0)
+      else:
+        mnStream newFileStream(stdin), "stdin", op

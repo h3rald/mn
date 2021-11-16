@@ -1,10 +1,13 @@
+when defined(c):
+  import os
+when defined(js):
+  import ./js
 import 
   critbits, 
   strutils,
   sequtils, 
   algorithm,
-  times,
-  os
+  times
 import 
   parser, 
   value, 
@@ -25,7 +28,7 @@ proc lang_module*(i: In) =
     i.reqQuotationOfSymbols q
     i.push(i.expect(q.qVal.mapIt(it.getString())).reversed.newVal)
   
-  def.symbol("print") do (i: In):
+  def.symbol("print") do (i: In) {.gcsafe.}:
     let a = i.peek
     a.print
   
@@ -50,11 +53,15 @@ proc lang_module*(i: In) =
     f.write(b.strVal)
     f.close()
 
-  def.symbol("args") do (i: In):
-    var args = newSeq[MnValue](0)
-    for par in commandLineParams():
-        args.add par.newVal
-    i.push args.newVal
+  when defined(js):
+    def.symbol("args") do (i: In):
+      i.push newSeq[MnValue](0).newVal
+  else:
+    def.symbol("args") do (i: In):
+      var args = newSeq[MnValue](0)
+      for par in commandLineParams():
+          args.add par.newVal
+      i.push args.newVal
   
   def.symbol("exit") do (i: In):
     let vals = i.expect("int")
@@ -133,7 +140,7 @@ proc lang_module*(i: In) =
     if not res:
       raiseUndefined("Attempting to delete undefined symbol: " & sym.getString)
   
-  def.symbol("eval") do (i: In):
+  def.symbol("eval") do (i: In) {.gcsafe.}:
     let vals = i.expect("str")
     let s = vals[0]
     i.eval s.strVal
@@ -189,22 +196,40 @@ proc lang_module*(i: In) =
   def.symbol("os") do (i: In):
     i.push hostOS.newVal
 
-  def.symbol("run") do (i: In):
-    let vals = i.expect("'sym")
-    let cmd = vals[0]
-    let res = execShellCmd(cmd.getString)
-    i.push(res.newVal)
+  when defined(js):
+    def.symbol("run") do (i: In):
+      let vals = i.expect("'sym")
+      i.push((-1).newVal)
+  else:
+    def.symbol("run") do (i: In):
+      let vals = i.expect("'sym")
+      let cmd = vals[0]
+      let res = execShellCmd(cmd.getString)
+      i.push(res.newVal)
 
-  def.symbol("which") do (i: In):
-    let vals = i.expect("'sym")
-    let s = vals[0]
-    i.push s.getString.findExe.newVal
+  when defined(js):
+    def.symbol("which") do (i: In):
+      let vals = i.expect("'sym")
+      i.push "".newVal
+  else:
+    def.symbol("which") do (i: In):
+      let vals = i.expect("'sym")
+      let s = vals[0]
+      i.push s.getString.findExe.newVal
 
-  def.symbol("os") do (i: In):
-    i.push hostOS.newVal
+  when defined(js):
+    def.symbol("os") do (i: In):
+      i.push newVal("n/a")
+  else:
+    def.symbol("os") do (i: In):
+      i.push hostOS.newVal
   
-  def.symbol("cpu") do (i: In):
-    i.push hostCPU.newVal
+  when defined(js):
+    def.symbol("cpu") do (i: In):
+      i.push newVal("n/a")
+  else:
+    def.symbol("cpu") do (i: In):
+      i.push hostCPU.newVal
 
   def.symbol("timestamp") do (i: In):
     i.push getTime().toUnix().newVal
