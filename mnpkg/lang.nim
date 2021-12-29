@@ -234,8 +234,7 @@ proc lang_module*(i: In) =
     let vals = i.expect("quot", "a")
     let q = vals[0]
     let v = vals[1]
-    q.qVal = @[v] & q.qVal
-    i.push q
+    i.push newVal(@[v] & q.qVal)
 
   def.symbol("interpolate") do (i: In):
     var vals = i.expect("quot")
