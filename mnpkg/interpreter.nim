@@ -156,7 +156,7 @@ proc apply*(i: In, q: var MnValue) {.gcsafe.}=
           i2.dequote(v2)
         else:
           i2.push v
-  except:
+  except CatchableError:
     i.currSym = i2.currSym
     i.trace = i2.trace
     raise
@@ -223,7 +223,7 @@ template handleErrors*(i: In, body: untyped) =
     raise MnTrappedException(msg: msg)
   except MnTrappedException:
     raise
-  except:
+  except CatchableError:
     let msg = getCurrentExceptionMsg()
     i.stack = i.stackcopy
     i.stackTrace()

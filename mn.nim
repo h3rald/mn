@@ -26,7 +26,7 @@ proc interpret*(i: In, s: Stream) =
   discard i.parser.getToken() 
   try:
     i.interpret()
-  except:
+  except CatchableError:
     i.error(getCurrentExceptionMsg())
   i.close()
 
@@ -35,7 +35,7 @@ proc interpret*(i: In, s: string): MnValue =
   discard i.parser.getToken() 
   try:
     result = i.interpret()
-  except:
+  except CatchableError:
     i.error(getCurrentExceptionMsg())
   i.close()
     
@@ -58,7 +58,7 @@ proc mnFile*(filename: string, op = "interpret", main = true): seq[string] {.dis
   var contents = ""
   try:
     fileLines = fn.readFile().splitLines()
-  except:
+  except CatchableError:
     stderr.writeLine("Cannot read from file: " & fn)
     quit(3)
   if fileLines[0].len >= 2 and fileLines[0][0..1] == "#!":
