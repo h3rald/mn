@@ -12,6 +12,7 @@ import
 export 
   parser,
   interpreter,
+  vm,
   utils,
   value,
   scope,
@@ -41,11 +42,23 @@ proc interpret*(i: In, s: string): MnValue =
     
 proc mnFile*(filename: string, op = "interpret", main = true): seq[string] {.discardable.}
 
+proc compileToBytecode*(i: In, s: Stream) =
+  let dotindex = i.filename.rfind(".")
+  let bmnFile = i.filename[0..dotindex-1] & ".bmn"
+  try:
+    let bcode = i.rawBytecodeCompile()
+    writeFile(bmnFile, bcode)
+  except CatchableError:
+    echo getCurrentExceptionMsg()
+
 proc mnStream(s: Stream, filename: string, op = "interpret", main = true): seq[string] {.discardable.}= 
-  var i = newMinInterpreter(filename = filename)
-  i.pwd = filename.parentDir
-  i.interpret(s)
-  newSeq[string](0)
+  if op == "interpret":
+    var i = newMinInterpreter(filename = filename)
+    i.pwd = filename.parentDir
+    i.interpret(s)
+    newSeq[string](0)
+  else:
+    i.compileToBytecode(s)
 
 proc mnStr*(buffer: string) =
   mnStream(newStringStream(buffer), "input")
@@ -127,6 +140,7 @@ when isMainModule:
   ]
 
   var file, s: string = ""
+  var op = "interpret"
   var args = newSeq[string](0)
   var p = initOptParser()
   
@@ -138,6 +152,8 @@ when isMainModule:
           file = key 
       of cmdLongOption, cmdShortOption:
         case key:
+          of "compile", "c":
+            op = "compile"
           of "debug", "d":
             DEBUG = true 
           of "evaluate", "e":
@@ -155,7 +171,6 @@ when isMainModule:
             discard
       else:
         discard
-  var op = "interpret"
   if s != "":
     mnStr(s)
   elif file != "":
