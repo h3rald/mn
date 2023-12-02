@@ -267,7 +267,12 @@ proc lang_module*(i: In) =
     let sep = vals[0].getString
     let s = vals[1].getString
     var q = newSeq[MnValue](0)
-    for e in s.split(sep):
+    var ss: seq[string]
+    if sep == "":
+      ss = s.items.toSeq.mapIt($it)
+    else:
+      ss = s.split(sep)
+    for e in ss:
       q.add e.newVal
     i.push q.newVal
 
