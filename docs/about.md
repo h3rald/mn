@@ -40,7 +40,7 @@ Is {{m}} the *successor* of min? No! As I said, it is min's little brother, and 
 
 What *does* it have then? Well, {{m}} provides:
 
-* exactly 70 symbols, nearly all of which are borrowed from min
+* exactly 72 symbols, nearly all of which are borrowed from min
 * file reading/writing (via the {#link-symbol||read#} and {#link-symbol||write#} symbols)
 * stdin reading ({#link-symbol||gets#}) and writing ({#link-symbol||puts#})
 * external command execution via {#link-symbol||run#} and automatic command expansion for all strings wrapped in square brackets

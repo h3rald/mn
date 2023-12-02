@@ -223,6 +223,13 @@ proc lang_module*(i: In) =
   def.symbol("dup") do (i: In):
     i.push i.peek
 
+  def.symbol("dip") do (i: In):
+    let vals = i.expect("quot", "a")
+    var q = vals[0]
+    let v = vals[1]
+    i.dequote(q)
+    i.push v
+
   def.symbol("swap") do (i: In):
     let vals = i.expect("a", "a")
     let a = vals[0]
@@ -407,6 +414,12 @@ proc lang_module*(i: In) =
   
   def.symbol("-inf") do (i: In):
     i.push newVal(NegInf)
+
+  def.symbol("mod") do (i: In):
+    let vals = i.expect("int", "int")
+    let b = vals[0]
+    let a = vals[1]
+    i.push(newVal(a.intVal mod b.intVal))
   
   def.symbol("+") do (i: In):
     let vals = i.expect("num", "num")

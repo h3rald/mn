@@ -9,7 +9,7 @@
         (".exe" (ext) bind)
     when
     "Building mn - $# (x64) - $#" (target_os stage) interpolate puts pop
-    "nim c -d:$# --os:$# --gc:orc --deepcopy:on --opt:size mn" (stage target_os) interpolate (cmd) let
+    "nim c -d:$# --os:$# --mm:orc --deepcopy:on --opt:size mn" (stage target_os) interpolate (cmd) let
     cmd puts pop
     cmd run
     "tar -czvf $#.tar.gz mn$#" (o ext) interpolate run
